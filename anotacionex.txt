@@ -1,0 +1,53 @@
+Vamos a crear una restAPI con  rest 
+
+arrancamos creando el venv 
+
+-pip install virtual env 
+
+-python -m virtualenv venv
+
+-.\venv\Scripts\activate
+
+-pip install django
+
+-pip install djangorestframework
+
+-Creamos el proyecto de django 
+
+-Los serializers le dan formato JSON a la informacion para que sea legible en el front 
+
+-las viewsets son views (endpoints con sus correspondientes funciones) los cuales 
+vienen de restframework y hacen que la construccion de la url sea basada en un modelo 
+con funciones convencionales ya incluidas
+
+-serializers
+
+.modelSerializer se usa para serializar un modelo 
+
+-viewsets 
+
+.se configuran en api.py 
+
+-rutas 
+
+.se configuran en urls.py (de la app)
+
+se encargan de generar rutas de forma ordenada por app 
+
+---------
+
+Estamos manejando el CRUD desde restframework, pero tambien podemos manejarlo 
+mediante un cliente rest aparte, thunderclient, tambien sirve postman 
+
+sirve para hacer requests mediante http a la base de datos
+
+podemos hacer peticiones get, post, put, delete 
+
+----CONFIGURACION PARA DEPLOY 
+
+
+
+
+
+
+
