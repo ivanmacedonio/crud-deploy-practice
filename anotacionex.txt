@@ -43,11 +43,78 @@ sirve para hacer requests mediante http a la base de datos
 
 podemos hacer peticiones get, post, put, delete 
 
-----CONFIGURACION PARA DEPLOY 
+----CONFIGURACION PARA DEPLOY Y POSTGRES 
+
+debemos subirlo a github 
+
+en settings/ 
+
+import os 
+
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+creamos una secret key para que render (donde se hace deploy) asegure la variable 
+
+DEBUG = 'RENDER' not in os.environ
+si no estamos en produccion, proteje las rutas 
+
+configuramos el allowed hosts, para saber quienes pueden acceder al backend 
+
+--CONNFIGURAR PARA POSTGRES
+
+pip install dj-database-url psycopg2-binary
+instalamos el modulo d postgres 
+
+-en settings 
+import dj_database_url
 
 
+DATABASES = {
+    'default': dj_database_url.config(
+    default = 'postgresql://postgres:postgres@localhost:5432/mysite',
+    conn_max_age = 600
+    )
+}
+
+colocamos la url d nuestra database de postgres y asignamos el ping maximo antes 
+de botar al usuario de la pagina 
 
 
+--WHITENOISE 
+
+lo usamos para servir archivos estaticos 
+
+pip install whitenoise
+
+lo agrrgamos a settings 
+
+'whitenoise.middleware.WhiteNoiseMiddleware',
+
+necesitamos cargar statics porque apirestframework usa css y js
+
+abajo de statics 
+
+
+if not DEBUG: 
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+----MIGRATES 
+
+para que se ejecuten automaticamente las migraciones sin necesidad de hacer comando a comando, 
+usamos eel archivo base 
+
+set -o errexit
+
+poetry install 
+
+python manage.py collectstatics --no-input
+python manage.py migrate
+
+desde bash ejecuten chmod a+x build.sh
+
+lo convierte a build en un ejecutable 
+
+y pip install guinicorn, para poder servir contenido estatico 
 
 
 
